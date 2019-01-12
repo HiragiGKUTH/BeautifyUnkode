@@ -4,12 +4,14 @@ function main() {
 	const inputCode = document.querySelector("#input").value;
   //To List
 	let lineList = inputCode.split('\n');
-  
+  //set parameter
+  const tabSize = 4;
+
   //Quality ratio :Type => number
   const qualityRatio = AnalyzeQuality(lineList);
   
   //Compute beautified code :Type => string
-  const beautifulCode = BeautifyCode(lineList);
+  const beautifulCode = BeautifyCode(lineList, tabSize);
   
   //Apply code color scheme :Type => textContent
   // !Optical
@@ -26,7 +28,7 @@ function main() {
 
 /**
  * Analyzing Code Quality
- * @param lineList {string} Unkode list , splited by \n.
+ * @param lineList {string} Unkode list, splited by \n.
  * @return {number} Code quality ratio [0 - 1.0].
  */
 function AnalyzeQuality(lineList) {
@@ -40,11 +42,10 @@ function AnalyzeQuality(lineList) {
 
 /**
  * Beautify Unkode
- * @param {Array} lineList Unkode list , splited by \n 
+ * @param {Array} lineList Unkode list, splited by \n 
  * @returns {string} Beautiful Code
  */
-function BeautifyCode(lineList) {
-  let tabSize = 4;
+function BeautifyCode(lineList, tabSize) {
   let bracketDepth = 0;
   /* result */
   let beautyCode = "";
