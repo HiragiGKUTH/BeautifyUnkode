@@ -1,28 +1,20 @@
 
 function main() {
-	//get string data on input textarea
-	const inputCode = document.querySelector("#input").value;
-  //To List
-	let lineList = inputCode.split('\n');
-  //set parameter
+	//get texts on Textarea as a List
+	const lineList = document.querySelector("#input").value.split('\n');
   const tabSize = 4;
 
   //Quality ratio :Type => number
   const qualityRatio = AnalyzeQuality(lineList);
-  
+
   //Compute beautified code :Type => string
   const beautifulCode = BeautifyCode(lineList, tabSize);
-  
-  //Apply code color scheme :Type => textContent
-  // !Optical
-  //beautifulCode = ApplyColorScheme(beautifulCode);
-  
-  
+
   //Output results into HTML
   //Code output
   let outputCode = document.querySelector("#output");
   outputCode.value = beautifulCode;
-  
+
   //Evaluate output
 }
 
@@ -34,15 +26,15 @@ function main() {
 function AnalyzeQuality(lineList) {
 	let tabSize = 0;
   let bracketCnt = 0;
-  
+
 	for (let li = 0; li < lineList.length; li++) {
-  	
+
   }
 }
 
 /**
  * Beautify Unkode
- * @param {Array} lineList Unkode list, splited by \n 
+ * @param {Array} lineList Unkode list, splited by \n
  * @returns {string} Beautiful Code
  */
 function BeautifyCode(lineList, tabSize) {
@@ -82,8 +74,4 @@ function BeautifyCode(lineList, tabSize) {
     beautyCode += line + "\n";
   }
   return beautyCode;
-}
-
-function applyScheme(code) {
-	
 }
