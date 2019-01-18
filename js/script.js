@@ -1,4 +1,3 @@
-
 function main() {
 	//get string data on input textarea
 	const inputCode = document.querySelector("#input").value;
@@ -8,7 +7,7 @@ function main() {
   const tabSize = 4;
 
   //Quality ratio :Type => number
-  const qualityRatio = AnalyzeQuality(lineList);
+  const qualityRatio = AnalyzeQuality(lineList, tabSize);
   
   //Compute beautified code :Type => string
   const beautifulCode = BeautifyCode(lineList, tabSize);
@@ -31,13 +30,39 @@ function main() {
  * @param lineList {string} Unkode list, splited by \n.
  * @return {number} Code quality ratio [0 - 1.0].
  */
-function AnalyzeQuality(lineList) {
-	let tabSize = 0;
+function AnalyzeQuality(lineList, tabSize) {
   let bracketCnt = 0;
+  let correctLine = 0;
+  const lineSize = lineList.length;
   
-	for (let li = 0; li < lineList.length; li++) {
-  	
+  const SpaceCounter = (str) => {
+    let cnt = 0;
+    for (let i = 0; i < str.length; i++) {
+      if (str[i] === " ") {
+        cnt++;
+      } else {
+        return cnt;
+      }
+    }
+    return 0;
   }
+
+	for (let li = 0; li < lineList.length; li++) {
+    const line = lineList[li];
+    let prevLine = lineList[li==0 ? 0 : li-1];
+
+    if (prevLine.indexOf("{") != -1) {
+      bracketCnt++;
+    }
+    if (line.indexOf("}") != -1) {
+      bracketCnt--;
+    }
+    console.log(line);
+    if (SpaceCounter(line) === bracketCnt*tabSize) {
+      correctLine++;
+    }
+  }
+  return correctLine / lineSize;
 }
 
 /**
