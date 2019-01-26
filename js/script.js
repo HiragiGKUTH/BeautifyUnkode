@@ -1,7 +1,20 @@
+let tabSize = 4;
+
+function changeTabSize() {
+	const tabSizeNode = document.querySelector("#tabSize");
+	tabSize = tabSizeNode.value;
+}
+
+function loadFile() {
+	const reader = new FileReader();
+
+}
+
+
 function main() {
 	//get texts on Textarea as a List
 	const lineList = document.querySelector("#input").value.split('\n');
-  const tabSize = 4;
+  //tabSize = 4;
 
   //Quality ratio :Type => number
   const qualityRatio = AnalyzeQuality(lineList, tabSize);
@@ -15,6 +28,8 @@ function main() {
   outputCode.value = beautifulCode;
 
   //Evaluate output
+	let outputQualityRatio = document.querySelector("#qualityRatio");
+	outputQualityRatio.textContent = qualityRatio*100;
 }
 
 /**
@@ -23,7 +38,7 @@ function main() {
  * @return {number} Code quality ratio [0 - 1.0].
  */
 function AnalyzeQuality(lineList, tabSize) {
-  let bracketCnt = 0;
+  let bracketDepth = 0;
   let correctLine = 0;
   const lineSize = lineList.length;
 
@@ -42,15 +57,9 @@ function AnalyzeQuality(lineList, tabSize) {
 	for (let li = 0; li < lineList.length; li++) {
     const line = lineList[li];
     let prevLine = lineList[li==0 ? 0 : li-1];
+		bracketDepth = getNextBracketDepthHelper(line, prevLine, bracketDepth);
 
-    if (prevLine.indexOf("{") != -1) {
-      bracketCnt++;
-    }
-    if (line.indexOf("}") != -1) {
-      bracketCnt--;
-    }
-    console.log(line);
-    if (SpaceCounter(line) === bracketCnt*tabSize) {
+		if (SpaceCounter(line) === bracketDepth*tabSize) {
       correctLine++;
     }
   }
@@ -77,26 +86,26 @@ function BeautifyCode(lineList, tabSize) {
   }
 
   for (let li = 0; li < lineList.length; li++) {
-    let line = lineList[li];
-    let prevLine = lineList[li==0 ? 0 : li-1];
+    const line = lineList[li].trim();
+    const prevLine = lineList[li==0 ? 0 : li-1].trim();
 
-    /* delete all indent */
-    line = line.trim();
-
-    /* bracket detection */
-    //add indentation to the next line of the open bracket, so I use previous line data.
-    if (prevLine.indexOf("{") != -1) {
-      bracketDepth++;
-    }
-    if (line.indexOf("}") != -1) {
-      bracketDepth--;
-    }
-
-    /* add indent */
-    line = InsSpace(line, tabSize * bracketDepth);
+		bracketDepth = getNextBracketDepthHelper(line, prevLine, bracketDepth);
 
     /* push to result */
-    beautyCode += line + "\n";
+    beautyCode += InsSpace(line, tabSize * bracketDepth) + "\n";
   }
   return beautyCode;
+}
+
+function getNextBracketDepthHelper(line, prevLine, nowDepth) {
+	let nextDepth = nowDepth;
+	/* bracket detection */
+	//add indentation to the next line of the open bracket, so I use previous line data.
+	if (prevLine.indexOf("{") !== -1 && line !== prevLine) {
+		nextDepth++;
+	}
+	if (line.indexOf("}") !== -1) {
+		nextDepth--;
+	}
+	return nextDepth;
 }

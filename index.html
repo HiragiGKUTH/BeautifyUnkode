@@ -15,10 +15,7 @@
     <main>
       <section class="Original">
         <p>
-          Unkode here.
-        </p>
-        <p>
-          <button onclick="loadFile();">Upload File</button>
+          Unkode here.  Tab Size <input id="tabSize" type="number" value="4" min="1" max="16" onchange="changeTabSize();">
         </p>
         <textarea id="input" rows="20" cols="80"></textarea>
         <br>
@@ -27,7 +24,9 @@
         Cleaning!
       </button>
       <section id="Measure">
-        <!-- something here -->
+        <p>
+          Quality(%):<span id="qualityRatio"></span>
+        </p>
       </section>
       <section class="Result">
         <p>
