@@ -8,7 +8,6 @@ function changeTabSize() {
 function main() {
 	//get texts on Textarea as a List
 	const lineList = document.querySelector("#input").value.split('\n');
-  //tabSize = 4;
 
   //Quality ratio :Type => number
   const qualityRatio = AnalyzeQuality(lineList, tabSize);
@@ -108,7 +107,6 @@ function getNextBracketDepthHelper(line, prevLine, nowDepth) {
   if (line === "//" || line === "/*" || line === "*/") {
     return nextDepth;
   }
-
   // If " or ' char is detected, delete "{}" in the quotation
   if (line === "\"" || line === "\'") {
 
