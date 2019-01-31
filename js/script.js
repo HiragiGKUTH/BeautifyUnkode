@@ -5,12 +5,6 @@ function changeTabSize() {
 	tabSize = tabSizeNode.value;
 }
 
-function loadFile() {
-	const reader = new FileReader();
-
-}
-
-
 function main() {
 	//get texts on Textarea as a List
 	const lineList = document.querySelector("#input").value.split('\n');
@@ -29,7 +23,10 @@ function main() {
 
   //Evaluate output
 	let outputQualityRatio = document.querySelector("#qualityRatio");
-	outputQualityRatio.textContent = qualityRatio*100;
+  outputQualityRatio.textContent = Math.round(qualityRatio*100) + " \%";
+  
+  //Scrolling to bottom of the page
+  scrollTo(200, 5000);
 }
 
 /**
@@ -68,7 +65,8 @@ function AnalyzeQuality(lineList, tabSize) {
 
 /**
  * Beautify Unkode
- * @param {Array} lineList Unkode list, splited by \n
+ * @param {Array} lineList Unkode list, splited by '\n'
+ * @param {number} tabSize uses of tab size
  * @returns {string} Beautiful Code
  */
 function BeautifyCode(lineList, tabSize) {
@@ -76,7 +74,7 @@ function BeautifyCode(lineList, tabSize) {
   /* result */
   let beautyCode = "";
 
-  /* insert num spaces function */
+  /* insert num spaces at head of line function */
   const InsSpace = (str, num) => {
     let spaces = "";
     for (let i = 0; i < num; i++) {
@@ -88,7 +86,6 @@ function BeautifyCode(lineList, tabSize) {
   for (let li = 0; li < lineList.length; li++) {
     const line = lineList[li].trim();
     const prevLine = lineList[li==0 ? 0 : li-1].trim();
-
 		bracketDepth = getNextBracketDepthHelper(line, prevLine, bracketDepth);
 
     /* push to result */
@@ -97,10 +94,26 @@ function BeautifyCode(lineList, tabSize) {
   return beautyCode;
 }
 
+/**
+ * Get indent level of next line that it should be.
+ * @param {string} line now line's string
+ * @param {string} prevLine previous line's string
+ * @param {number} nowDepth now indent depth
+ */
 function getNextBracketDepthHelper(line, prevLine, nowDepth) {
 	let nextDepth = nowDepth;
-	/* bracket detection */
-	//add indentation to the next line of the open bracket, so I use previous line data.
+  /* bracket detection */
+  
+  // If // , /* or */ char is detected, return same value
+  if (line === "//" || line === "/*" || line === "*/") {
+    return nextDepth;
+  }
+
+  // If " or ' char is detected, delete "{}" in the quotation
+  if (line === "\"" || line === "\'") {
+
+  }
+	// add indentation to the next line of the open bracket, so I use previous line data.
 	if (prevLine.indexOf("{") !== -1 && line !== prevLine) {
 		nextDepth++;
 	}

@@ -14,25 +14,29 @@
     </header>
     <main>
       <section class="Original">
-        <p>
-          Unkode here.  Tab Size <input id="tabSize" type="number" value="4" min="1" max="16" onchange="changeTabSize();">
-        </p>
-        <textarea id="input" rows="20" cols="80"></textarea>
-        <br>
+        <h2><<< Unkode Here!! >>></h2>        
+      <textarea id="input"></textarea>
       </section>
-      <button onclick="main();">
-        Cleaning!
-      </button>
-      <section id="Measure">
+      <section id="form">
+        <button onclick="main();">
+          Cleaning!
+        </button>
         <p>
-          Quality(%):<span id="qualityRatio"></span>
+          Tab Size　<input id="tabSize" type="number" value="4" min="1" max="16" onchange="changeTabSize();">
         </p>
       </section>
       <section class="Result">
-        <p>
-          Beautiful Result!
-        </p>
-        <textarea id="output" rows="20" cols="80" readonly="readonly"></textarea>
+        <div>
+          <h2>
+            <<< Beautiful Result! >>>
+          </h2>
+          <section id="Measure">
+            <p>
+              Quality(%) : <span id="qualityRatio"></span>
+            </p>
+          </section>
+        </div>
+        <textarea id="output" readonly="readonly"></textarea>
       </section>
     </main>
   </body>
