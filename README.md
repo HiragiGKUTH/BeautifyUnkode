@@ -37,14 +37,14 @@ Also analyze your code and show you a review.
 
 example:
 
-'''cpp:shit.cpp
+```cpp:shit.cpp
 #include <stdio.h>
 
 int main() {
     printf("HelloWorld");
       return 0;    //Invalid indentation here!
 }
-'''
+```
 
 then, you can see code quality
 
